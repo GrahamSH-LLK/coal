@@ -38,7 +38,7 @@ defineChatCommand({
     options: {
         user: {
           type: ApplicationCommandOptionType.User,
-          description: "Message content",
+          description: "user to get coal",
           required: true,
         },
     }
