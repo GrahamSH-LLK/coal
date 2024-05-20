@@ -1,8 +1,9 @@
+import 'dotenv/config'
+
 import { GatewayIntentBits } from "discord.js";
 import { login } from "strife.js";
 import path from "node:path";
 import url from "node:url";
-import 'dotenv/config'
 await login({
   clientOptions: {
     intents: [
