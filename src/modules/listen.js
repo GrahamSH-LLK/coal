@@ -8,7 +8,7 @@ defineEvent("messageCreate", async (message) => {
   if(thishelpid) {
     let targetuser = database.data.find((x) => x.id == thishelpid.helpid);
     if (coalCount < 1) {
-      return message.reply(`Why aren't you helping <@${targetuser.id}>?`);
+      return message.reply(`Why aren't you helping?`);
     }
     targetuser.coal -= coalCount;
     database.data = [
@@ -19,7 +19,7 @@ defineEvent("messageCreate", async (message) => {
       database.data = database.data.filter((x) => (x.id != message.author.id||!x.helpid))
       return await message.reply(`<@${targetuser.id}> is free, thanks to <@${message.author.id}>!`);
     }
-    return await message.reply(`You helped <@${targetuser.id}> mine ${coalCount} coal!`);
+    return await message.reply(`You helped mine ${coalCount} coal!`);
   
   } else if (database.data.some((x) => x.id == message.author.id)) {
     if (coalCount < 1) {
