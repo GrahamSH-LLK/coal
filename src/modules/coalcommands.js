@@ -48,7 +48,7 @@ async (interaction, options) => {
     if (record) {
         return await interaction.reply(`${record.coal} remaining`)
     }
-    return await interaction.reply(`no existing punishment`, {ephemeral: true})
+    return await interaction.reply( {content:`no existing punishment`,ephemeral: true})
 })
 
 defineChatCommand({
@@ -66,7 +66,7 @@ async (interaction, options) => {
     let record = database.data.find((x) => x.id == interaction.user.id)
     if (record) {
         if (options.amount > record.coal || options.amount < 1) {
-            return await interaction.reply(`invalid amount`, {ephemeral: true})
+            return await interaction.reply( {content: `invalid amount`,ephemeral: true})
         }
         let won = Math.random() > options.amount / record.coal;
         let newCoal = record.coal + (won ? -1.0 : 1.0 ) * options.amount
@@ -81,7 +81,7 @@ async (interaction, options) => {
         return await interaction.reply(`you ${won ? 'won' : 'lost'}! your coal amount is now ${newCoal}`);
 
     }
-    return await interaction.reply(`no existing punishment`, {ephemeral: true})
+    return await interaction.reply({content:`no existing punishment`, ephemeral: true})
 })
 
 defineChatCommand({
