@@ -158,6 +158,45 @@ defineChatCommand(
       if (options.amount > record.coal || options.amount < 1) {
         return await interaction.reply( {content: `invalid amount`,ephemeral: true})
       }
+      let newCoal = record.coal - options.user.coal;
+      database.data = [
+          ...database.data.filter((x) => x.id != interaction.user.id),
+          {
+            id: interaction.user.id,
+            coal: newCoal,
+          },
+        ];
+    
+      return await interaction.reply(`<@${interaction.user.id}> helped <@${options.user.id}> mine ${options.user.coal} coal! How nice. Only ${options.user.coal} coal left!`);
+    }
+    return await interaction.reply({content:`Who are you even talking to?`, ephemeral: true})
+  }
+);
+
+defineChatCommand(
+  {
+    name: "hurtmine",
+    description: "Help a user mine",
+    options: {
+      user: {
+        type: ApplicationCommandOptionType.User,
+        description: "User to hurt",
+        required: true,
+      },
+      coal: {
+        type: ApplicationCommandOptionType.Number,
+        description: "Coal to remove",
+        required: true,
+      },
+    },
+  },
+
+  async (interaction, options) => {
+    let record = database.data.find((x) => x.id == interaction.user.id)
+    if (record) {
+      if (options.amount < 1) {
+        return await interaction.reply( {content: `invalid amount`,ephemeral: true})
+      }
       let newCoal = record.coal + options.user.coal;
       database.data = [
           ...database.data.filter((x) => x.id != interaction.user.id),
@@ -167,7 +206,7 @@ defineChatCommand(
           },
         ];
     
-      return await interaction.reply(`<@${interaction.user.id} helped <@${options.user.id} mine ${coalhelp} coal! How nice. Only ${options.user.coal} coal left!`);
+      return await interaction.reply(`<@${interaction.user.id}> added ${options.user.coal} to <@${options.user.id}>'s sentence! You got another ${options.user.coal} coal left!`);
     }
     return await interaction.reply({content:`Who are you even talking to?`, ephemeral: true})
   }
