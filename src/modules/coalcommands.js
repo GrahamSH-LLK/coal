@@ -98,5 +98,5 @@ defineChatCommand({
 async (interaction, options) => {
   database.data = database.data.filter((x) => x.id != options.user.id);
   
-  return await interaction.reply(`you freed <@${interaction.user.id}>! lucky them.`)
+  return await interaction.reply(`you freed <@${options.user.id}>! lucky them.`)
 })
