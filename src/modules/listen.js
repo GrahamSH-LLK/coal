@@ -1,6 +1,6 @@
 import { defineEvent } from "strife.js";
 import { database } from "./punishmentdb.js";
-let INSULTS = ["KEEP WORKING", "WORK HARDER", "WORK FASTER", "MORE COAL"];
+let INSULTS = ["KEEP WORKING", "WORK HARDER", "WORK FASTER", "MORE COAL", "FUCK YOU!"];
 defineEvent("messageCreate", async (message) => {
   let coalCount =
     message.content.split("<:coal:1204805721007595550>").length - 1;
@@ -19,7 +19,7 @@ defineEvent("messageCreate", async (message) => {
     if (record.coal < 1) {
       return await message.reply(`You're free!`);
     }
-    message.reply(INSULTS[Math.floor(Math.random() * INSULTS.length)]);
+    message.reply(Math.floor(Math.random()*100)==0? "i love you hehe" : INSULTS[Math.floor(Math.random() * INSULTS.length)]);
   }
   // code here...
 });
