@@ -17,7 +17,7 @@ defineEvent("messageCreate", async (message) => {
       ...(record.coal >= 1 ? [record] : []),
     ];
     if (record.coal < 1) {
-      await message.reply(`You're free!`);
+      return await message.reply(`You're free!`);
     }
     message.reply(INSULTS[Math.floor(Math.random() * INSULTS.length)]);
   }
