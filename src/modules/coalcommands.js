@@ -1,5 +1,5 @@
-import { defineChatCommand } from "strife.js";
 import { ApplicationCommandOptionType } from "discord.js";
+import { defineChatCommand } from "strife.js";
 import { database } from "./punishmentdb.js";
 defineChatCommand(
   {
@@ -82,4 +82,27 @@ async (interaction, options) => {
 
     }
     return await interaction.reply(`no existing punishment`)
+})
+
+defineChatCommand({
+  name: 'free',
+  description: 'free a user',
+  options: {
+      user: {
+        type: ApplicationCommandOptionType.User,
+        description: "user to free",
+        required: true,
+      },
+  }
+},
+async (interaction, options) => {
+  database.data = [
+    ...database.data.filter((x) => x.id != interaction.user.id),
+    {
+      id: interaction.user.id,
+      coal: 0,
+    },
+  ];
+  
+  return await interaction.reply(`you freed ${interaction.user.name}! lucky them.`)
 })
