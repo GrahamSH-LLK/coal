@@ -1,25 +1,41 @@
 import { defineEvent } from "strife.js";
 import { database } from "./punishmentdb.js";
-let INSULTS = ["KEEP WORKING", "WORK HARDER", "WORK FASTER", "MORE COAL"];
+let INSULTS = [
+  "KEEP WORKING",
+  "WORK HARDER",
+  "WORK FASTER",
+  "MORE COAL",
+  "FUCK YOU!",
+];
 defineEvent("messageCreate", async (message) => {
   let coalCount =
     message.content.split("<:coal:1204805721007595550>").length - 1;
-  if (database.data.some((x) => x.id == message.author.id)) {
-    if (coalCount < 1) {
+  let user = database.data.find((x) => x.id == message.author.id);
+  let isHelping = !!user?.helpid;
+  let targetuser = database.data.find(
+    (x) => x.id == (isHelping ? user.helpid : message.author.id)
+  );
+
+  if (targetuser) {
+    if (coalCount < 1 && !isHelping) {
       return message.reply("GET BACK TO WORK");
     }
-    let record = database.data.find((x) => {
-      return x.id == message.author.id;
-    });
-    record.coal -= coalCount;
+    targetuser.coal -= coalCount;
     database.data = [
-      ...database.data.filter((x) => x.id != message.author.id),
-      ...(record.coal >= 1 ? [record] : []),
+      ...database.data.filter((x) => x.id != targetuser.id),
+      ...(targetuser.coal >= 1 ? [targetuser] : []),
     ];
-    if (record.coal < 1) {
-      return await message.reply(`You're free!`);
+    if (targetuser.coal < 1) {
+      if (isHelping) {
+        database.data = [...database.data.filter((x) => x.id != user.id)];
+      }
+
+      return await message.reply(
+        isHelping
+          ? `<@${targetuser.id}> is free thanks to you!`
+          : `You're free!`
+      );
     }
-    message.reply(INSULTS[Math.floor(Math.random() * INSULTS.length)]);
+    if (!isHelping) message.reply(INSULTS[Math.floor(Math.random() * INSULTS.length)]);
   }
-  // code here...
 });
