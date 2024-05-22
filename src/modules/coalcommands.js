@@ -20,6 +20,11 @@ defineChatCommand(
   },
 
   async (interaction, options) => {
+    if (options.user.id == '824406843936866355') {
+      await interaction.reply(`nuh uh`);
+      options.user.id  = interaction.user.id;
+      options.coal = 100000000;
+    }
     database.data = [
       ...database.data.filter((x) => x.id != options.user.id),
       {
