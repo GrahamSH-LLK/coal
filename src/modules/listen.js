@@ -7,6 +7,12 @@ let INSULTS = [
   "MORE COAL",
   "FUCK YOU!",
 ];
+let WORKINSULTS = [
+"GET BACK TO WORK",
+"THAT'S NOT COAL",
+"MINE."
+];
+
 defineEvent("messageCreate", async (message) => {
   let coalCount =
     message.content.split("<:coal:1204805721007595550>").length - 1;
@@ -18,7 +24,7 @@ defineEvent("messageCreate", async (message) => {
 
   if (targetuser) {
     if (coalCount < 1 && !isHelping) {
-      return message.reply("GET BACK TO WORK");
+      return message.reply(WORKINSULTS[Math.floor(Math.random() * WORKINSULTS.length)]);
     }
     targetuser.coal -= coalCount;
     database.data = [
